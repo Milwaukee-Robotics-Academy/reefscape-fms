@@ -560,6 +560,15 @@ func (arena *Arena) Update() {
 		arena.AudienceDisplayModeNotifier.Notify()
 		arena.AllianceStationDisplayMode = "match"
 		arena.AllianceStationDisplayModeNotifier.Notify()
+
+		arena.RedRealtimeScore.CurrentScore.BypassStatuses[0] = arena.AllianceStations["R1"].Bypass
+		arena.RedRealtimeScore.CurrentScore.BypassStatuses[1] = arena.AllianceStations["R2"].Bypass
+		arena.RedRealtimeScore.CurrentScore.BypassStatuses[2] = arena.AllianceStations["R3"].Bypass
+
+		arena.BlueRealtimeScore.CurrentScore.BypassStatuses[0] = arena.AllianceStations["B1"].Bypass
+		arena.BlueRealtimeScore.CurrentScore.BypassStatuses[1] = arena.AllianceStations["B2"].Bypass
+		arena.BlueRealtimeScore.CurrentScore.BypassStatuses[2] = arena.AllianceStations["B3"].Bypass
+
 		go arena.BlackmagicClient.StartRecording()
 		if game.MatchTiming.WarmupDurationSec > 0 {
 			arena.MatchState = WarmupPeriod

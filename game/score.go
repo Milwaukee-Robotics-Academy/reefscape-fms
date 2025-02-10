@@ -5,10 +5,13 @@
 
 package game
 
+import "log"
+
 type Score struct {
 	LeaveStatuses      [3]bool
+	BypassStatuses     [3]bool
 	AmpSpeaker         AmpSpeaker
-	Grid			   Grid
+	Grid               Grid
 	EndgameStatuses    [3]EndgameStatus
 	MicrophoneStatuses [3]bool
 	TrapStatuses       [3]bool
@@ -46,7 +49,6 @@ const (
 	EndgameStageLeft
 	EndgameCenterStage
 	EndgameStageRight
-
 )
 
 // Represents a side of the Stage field element.
@@ -133,9 +135,9 @@ func (score *Score) Summarize(opponentScore *Score) *ScoreSummary {
 		}
 	} */
 	/* summary.StagePoints = summary.ParkPoints + summary.OnStagePoints + summary.HarmonyPoints + summary.SpotlightPoints +
-		summary.TrapPoints */
+	summary.TrapPoints */
 	summary.GridPoints = autoGridPoints + teleopGridPoints
-	summary.MatchPoints = summary.AlgaePoints + summary.EndgamePoints + summary.LeavePoints + summary.GridPoints;// summary.LeavePoints + summary.AmpPoints + summary.SpeakerPoints + summary.StagePoints
+	summary.MatchPoints = summary.AlgaePoints + summary.EndgamePoints + summary.LeavePoints + summary.GridPoints // summary.LeavePoints + summary.AmpPoints + summary.SpeakerPoints + summary.StagePoints
 
 	// Calculate penalty points.
 	for _, foul := range opponentScore.Fouls {
@@ -158,8 +160,8 @@ func (score *Score) Summarize(opponentScore *Score) *ScoreSummary {
 	summary.Score = summary.MatchPoints + summary.FoulPoints
 
 	// Calculate bonus ranking points.
-/* 	summary.NumNotes = score.AmpSpeaker.TotalNotesScored()
-	summary.NumNotesGoal = MelodyBonusThresholdWithoutCoop */
+	/* 	summary.NumNotes = score.AmpSpeaker.TotalNotesScored()
+	   	summary.NumNotesGoal = MelodyBonusThresholdWithoutCoop */
 	summary.NumAlgae = score.AmpSpeaker.ProcessedAlgae
 	summary.NumAlgaeGoal = AlgaeCoopThreshold
 	summary.NumLvLCoral[0] = score.Grid.TotalCoralScoredLvl1()
@@ -169,19 +171,19 @@ func (score *Score) Summarize(opponentScore *Score) *ScoreSummary {
 
 	if score.AmpSpeaker.ProcessedAlgae >= 2 {
 		summary.CoopertitionCriteriaMet = true
-	}else{
+	} else {
 		summary.CoopertitionCriteriaMet = false
 	}
-	
+
 	// Calculate the Auto Ranking Point
-	if score.Grid.AutoGamePiecePoints() > 0 && allLeaveStatusesTrue(score.LeaveStatuses[:]) {
+	if score.Grid.AutoGamePiecePoints() > 0 && allLeaveStatusesTrue(score.LeaveStatuses[:], score.BypassStatuses[:]) {
 		summary.AutoRankingPoint = true
 		summary.BonusRankingPoints++
 	}
 
 	// Calculate the Coral Ranking Point
 	summary.CoopertitionBonus = summary.CoopertitionCriteriaMet && opponentScore.AmpSpeaker.CoopActivated
-	
+
 	score.Grid.HasAtLeastFiveCoralPerRow()
 
 	if summary.CoopertitionBonus {
@@ -189,7 +191,7 @@ func (score *Score) Summarize(opponentScore *Score) *ScoreSummary {
 			summary.CoralRankingPoint = true
 			summary.BonusRankingPoints++
 		}
-	}else{
+	} else {
 		if score.Grid.HasAtLeastFiveCoralPerRow() {
 			summary.CoralRankingPoint = true
 			summary.BonusRankingPoints++
@@ -202,13 +204,13 @@ func (score *Score) Summarize(opponentScore *Score) *ScoreSummary {
 		summary.BonusRankingPoints++
 	}
 
-/* 	if MelodyBonusThresholdWithCoop > 0 {
+	/* 	if MelodyBonusThresholdWithCoop > 0 {
 		// A MelodyBonusThresholdWithCoop of 0 disables the coopertition bonus.
 		//summary.CoopertitionCriteriaMet = score.AmpSpeaker.CoopActivated
 		summary.CoopertitionBonus = summary.CoopertitionCriteriaMet && opponentScore.AmpSpeaker.CoopActivated
 		if summary.CoopertitionBonus {
 			summary.NumNotesGoal = MelodyBonusThresholdWithCoop
-		} 
+		}
 	} */
 
 	/* if summary.NumNotes >= summary.NumNotesGoal {
@@ -224,18 +226,25 @@ func (score *Score) Summarize(opponentScore *Score) *ScoreSummary {
 	if summary.EnsembleBonusRankingPoint {
 		summary.BonusRankingPoints++
 	}
- */
+	*/
 	return summary
 }
 
 // Helper function to check if all elements in LeaveStatuses are true
-func allLeaveStatusesTrue(leaveStatuses []bool) bool {
-    for _, status := range leaveStatuses {
-        if !status {
-            return false
-        }
-    }
-    return true
+func allLeaveStatusesTrue(leaveStatuses []bool, bypassStatuses []bool) bool {
+	for i := 0; i < 3; i++ {
+		log.Printf("Bypass Status: %t", bypassStatuses[i])
+		if !leaveStatuses[i] && !bypassStatuses[i] {
+
+			return false
+		}
+	}
+	// for _, status := range leaveStatuses {
+	//     if !status {
+	//         return false
+	//     }
+	// }
+	return true
 }
 
 // Returns true if and only if all fields of the two scores are equal.
