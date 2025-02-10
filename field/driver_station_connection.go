@@ -248,9 +248,12 @@ func (dsConn *DriverStationConnection) sendControlPacket(arena *Arena) error {
 	if dsConn.udpConn != nil {
 		_, err := dsConn.udpConn.Write(packet[:])
 		if err != nil {
+			log.Printf("DS Control Packet Error")
 			return err
 		}
 	}
+
+	log.Printf("Sending DS Control Packet")
 
 	return nil
 }
@@ -373,8 +376,10 @@ func (dsConn *DriverStationConnection) handleTcpConnection(arena *Arena) {
 		switch packetType {
 		case 29:
 			// DS keepalive packet; do nothing.
+			log.Printf("Received DS Keepalive Packet type %d from Team %d", packetType, dsConn.TeamId)
 			continue
 		case 22:
+			log.Printf("Received Robot Status Packet type %d from Team %d", packetType, dsConn.TeamId)
 			// Robot status packet.
 			var statusPacket [36]byte
 			copy(statusPacket[:], buffer[2:38])

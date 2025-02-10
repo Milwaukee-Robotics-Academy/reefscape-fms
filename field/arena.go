@@ -650,9 +650,14 @@ func (arena *Arena) Update() {
 		arena.MatchTimeNotifier.Notify()
 	}
 
+	// log.Printf("Thinking about sending DS Packets in arena")
+
 	// Send a packet if at a period transition point or if it's been long enough since the last one.
 	msSinceLastDsPacket := int(time.Since(arena.lastDsPacketTime).Seconds() * 1000)
+	// log.Printf("etorlows sendDsPacketLogic sendDsPacket %d msSinceLastDsPacket %d dsPacketPeriodMs %d", 
+	// 	sendDsPacket, msSinceLastDsPacket, dsPacketPeriodMs)
 	if sendDsPacket || msSinceLastDsPacket >= dsPacketPeriodMs {
+		log.Printf("At the time to send DS packets in arena")
 		if msSinceLastDsPacket >= dsPacketWarningMs && arena.lastDsPacketTime.After(time.Time{}) {
 			log.Printf("Warning: Long time since last driver station packet: %dms", msSinceLastDsPacket)
 		}
@@ -897,7 +902,9 @@ func (arena *Arena) checkAllianceStationsReady(stations ...string) error {
 func (arena *Arena) sendDsPacket(auto bool, enabled bool) {
 	for _, allianceStation := range arena.AllianceStations {
 		dsConn := allianceStation.DsConn
+		log.Printf("Thinkning about sending DS Packet")
 		if dsConn != nil {
+			log.Printf("DS not nil, so sending DS Packet")
 			dsConn.Auto = auto
 			dsConn.Enabled = enabled && !allianceStation.EStop && !(auto && allianceStation.AStop) &&
 				!allianceStation.Bypass
