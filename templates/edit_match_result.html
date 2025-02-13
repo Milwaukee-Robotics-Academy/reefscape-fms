@@ -37,6 +37,26 @@
           </div>
         {{end}}
       </div>
+      <h6 class="fw-bold mb-2">Bypass</h6>
+        {{range $i := seq 3}}
+          <div class="col-lg-2">
+            <label class="control-label">Team {{"{{team"}}{{$i}}{{"}}"}}</label>
+            <input type="checkbox" class="ms-3" name="{{"{{alliance}}"}}BypassStatuses{{$i}}">
+          </div>
+        {{end}}
+      </div>
+
+      <h6 class="fw-bold mb-2">Auto Reef</h6>
+      <table>
+      {{range $i := seq 3}}
+        <tr>
+        {{range $j := seq 12}}
+          <td><input type="checkbox" name="{{"{{alliance}}"}}AutoScoring{{$i}}{{$j}}"></td>
+        {{end}}
+        </tr>
+      {{end}}
+      </table>
+
       <h6 class="fw-bold mb-2">Notes Scored</h6>
       <div class="row">
         <label class="col-lg-1 text-end">Amp:</label>

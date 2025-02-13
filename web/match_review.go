@@ -8,10 +8,12 @@ package web
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/Team254/cheesy-arena/game"
-	"github.com/Team254/cheesy-arena/model"
+	"log"
 	"net/http"
 	"strconv"
+
+	"github.com/Team254/cheesy-arena/game"
+	"github.com/Team254/cheesy-arena/model"
 )
 
 type MatchReviewListItem struct {
@@ -92,6 +94,7 @@ func (web *Web) matchReviewEditGetHandler(w http.ResponseWriter, r *http.Request
 		handleWebErr(w, err)
 		return
 	}
+	log.Printf("Match Result json: %s", matchResultJson)
 	data := struct {
 		*model.EventSettings
 		Match           *model.Match

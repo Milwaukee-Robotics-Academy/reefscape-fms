@@ -42,9 +42,18 @@ const renderResults = function(alliance) {
     const i1 = i + 1;
 
     getInputElement(alliance, "LeaveStatuses" + i1).prop("checked", result.score.LeaveStatuses[i]);
+    getInputElement(alliance, "BypassStatuses" + i1).prop("checked", result.score.BypassStatuses[i]);
     getInputElement(alliance, "EndgameStatuses" + i1, result.score.EndgameStatuses[i]).prop("checked", true);
     getInputElement(alliance, "MicrophoneStatuses" + i1).prop("checked", result.score.MicrophoneStatuses[i]);
     getInputElement(alliance, "TrapStatuses" + i1).prop("checked", result.score.TrapStatuses[i]);
+  }
+
+  for (let i = 0; i < 3; i++) {
+    const i1 = i + 1;
+    for (let j = 0; j < 12; j++) {
+      const j1 = j + 1;
+      getInputElement(alliance, "AutoScoring" + i1 + j1).prop("checked", result.score.Grid.AutoScoring[i][j]);
+    }
   }
 
   if (result.score.Fouls != null) {
@@ -71,6 +80,7 @@ const updateResults = function(alliance) {
   });
 
   result.score.LeaveStatuses = [];
+  result.score.BypassStatuses = [];
   result.score.AmpSpeaker = {
     CoopActivated: formData[alliance + "CoopActivated"] === "on",
     AutoAmpNotes: parseInt(formData[alliance + "AutoAmpNotes"]),
@@ -86,9 +96,18 @@ const updateResults = function(alliance) {
     const i1 = i + 1;
 
     result.score.LeaveStatuses[i] = formData[alliance + "LeaveStatuses" + i1] === "on";
+    result.score.BypassStatuses[i] = formData[alliance + "BypassStatuses" + i1] === "on";
     result.score.EndgameStatuses[i] = parseInt(formData[alliance + "EndgameStatuses" + i1]);
     result.score.MicrophoneStatuses[i] = formData[alliance + "MicrophoneStatuses" + i1] === "on";
     result.score.TrapStatuses[i] = formData[alliance + "TrapStatuses" + i1] === "on";
+  }
+
+  for (let i = 0; i < 3; i++) {
+    const i1 = i + 1;
+    for (let j = 0; i < 12; j++) {
+      const j1 = j + 1;
+      result.score.Grid.AutoScoring[i][j] = formData[alliance + "AutoScoring" + i1 + j1] === "on";
+    }
   }
 
   result.score.Fouls = [];
