@@ -17,6 +17,12 @@ type Score struct {
 	TrapStatuses       [3]bool
 	Fouls              []Foul
 	PlayoffDq          bool
+	ForceAutoRpTrue    bool
+	ForceAutoRpFalse   bool
+	ForceBargeRpTrue   bool
+	ForceBargeRpFalse  bool
+	ForceCoralRpTrue   bool
+	ForceCoralRpFalse  bool
 }
 
 // Game-specific constants that cannot be changed by the user.
@@ -227,6 +233,33 @@ func (score *Score) Summarize(opponentScore *Score) *ScoreSummary {
 		summary.BonusRankingPoints++
 	}
 	*/
+
+	if score.ForceAutoRpTrue && !summary.AutoRankingPoint {
+		summary.AutoRankingPoint = true
+		summary.BonusRankingPoints++
+	}
+	if score.ForceBargeRpTrue && !summary.BargeRankingPoint {
+		summary.BargeRankingPoint = true
+		summary.BonusRankingPoints++
+	}
+	if score.ForceCoralRpTrue && !summary.CoralRankingPoint {
+		summary.CoralRankingPoint = true
+		summary.BonusRankingPoints++
+	}
+
+	if score.ForceAutoRpFalse && summary.AutoRankingPoint {
+		summary.AutoRankingPoint = false
+		summary.BonusRankingPoints--
+	}
+	if score.ForceBargeRpFalse && summary.BargeRankingPoint {
+		summary.BargeRankingPoint = false
+		summary.BonusRankingPoints--
+	}
+	if score.ForceCoralRpFalse && summary.CoralRankingPoint {
+		summary.CoralRankingPoint = false
+		summary.BonusRankingPoints--
+	}
+
 	return summary
 }
 

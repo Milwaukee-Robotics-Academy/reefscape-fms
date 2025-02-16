@@ -32,6 +32,14 @@ const renderResults = function(alliance) {
 
   // Set the values of the form fields from the JSON results data.
   getInputElement(alliance, "CoopActivated").prop("checked", result.score.AmpSpeaker.CoopActivated);
+
+  getInputElement(alliance, "ForceAutoRpTrue").prop("checked", result.score.ForceAutoRpTrue);
+  getInputElement(alliance, "ForceAutoRpFalse").prop("checked", result.score.ForceAutoRpFalse);
+  getInputElement(alliance, "ForceBargeRpTrue").prop("checked", result.score.ForceBargeRpTrue);
+  getInputElement(alliance, "ForceBargeRpFalse").prop("checked", result.score.ForceBargeRpFalse);
+  getInputElement(alliance, "ForceCoralRpTrue").prop("checked", result.score.ForceCoralRpTrue);
+  getInputElement(alliance, "ForceCoralRpFalse").prop("checked", result.score.ForceCoralRpFalse);
+
   getInputElement(alliance, "AutoAmpNotes").val(result.score.AmpSpeaker.AutoAmpNotes);
   getInputElement(alliance, "AutoSpeakerNotes").val(result.score.AmpSpeaker.AutoSpeakerNotes);
   getInputElement(alliance, "TeleopAmpNotes").val(result.score.AmpSpeaker.TeleopAmpNotes);
@@ -114,6 +122,14 @@ const updateResults = function(alliance) {
     ProcessedAlgae: parseInt(formData[alliance + "ProcessedAlgae"]),
     NetAlgae: parseInt(formData[alliance + "NetAlgae"]),
   };
+
+  result.score.ForceAutoRpTrue = formData[alliance + "ForceAutoRpTrue"] === "on";
+  result.score.ForceAutoRpFalse = formData[alliance + "ForceAutoRpFalse"] === "on";
+  result.score.ForceBargeRpTrue = formData[alliance + "ForceBargeRpTrue"] === "on";
+  result.score.ForceBargeRpFalse = formData[alliance + "ForceBargeRpFalse"] === "on";
+  result.score.ForceCoralRpTrue = formData[alliance + "ForceCoralRpTrue"] === "on";
+  result.score.ForceCoralRpFalse = formData[alliance + "ForceCoralRpFalse"] === "on";
+
   result.score.EndgameStatuses = [];
   result.score.MicrophoneStatuses = [];
   result.score.TrapStatuses = [];

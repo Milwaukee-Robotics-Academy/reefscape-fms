@@ -116,6 +116,19 @@
       </div>
     </fieldset>
     <fieldset>
+      <legend>Ranking Points</legend>
+      <label class="control-label">Force Auto RP True</label>
+      <input type="checkbox" class="ms-3" name="{{"{{alliance}}"}}ForceAutoRpTrue"><br/>
+      <label class="control-label">Force Auto RP False</label>
+      <input type="checkbox" class="ms-3" name="{{"{{alliance}}"}}ForceAutoRpFalse"><br/>
+      <label class="control-label">Force Barge RP True</label>
+      <input type="checkbox" class="ms-3" name="{{"{{alliance}}"}}ForceBargeRpTrue"><br/>
+      <label class="control-label">Force Barge RP False</label>
+      <input type="checkbox" class="ms-3" name="{{"{{alliance}}"}}ForceBargeRpFalse"><br/>
+      <label class="control-label">Force Coral RP True</label>
+      <input type="checkbox" class="ms-3" name="{{"{{alliance}}"}}ForceCoralRpTrue"><br/>
+      <label class="control-label">Force Coral RP False</label>
+      <input type="checkbox" class="ms-3" name="{{"{{alliance}}"}}ForceCoralRpFalse"><br/>
       <legend>Fouls</legend>
       {{"{{#each score.Fouls}}"}}
         <input type="hidden" class="input-sm" name="{{"{{../alliance}}"}}Foul{{"{{@index}}"}}Index"
