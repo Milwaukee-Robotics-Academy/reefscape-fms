@@ -48,12 +48,18 @@ const renderResults = function(alliance) {
     getInputElement(alliance, "TrapStatuses" + i1).prop("checked", result.score.TrapStatuses[i]);
   }
 
-  for (let i = 0; i < 4; i++) {
+  for (let i = 0; i < 3; i++) {
     const i1 = i + 1;
     for (let j = 0; j < 12; j++) {
       const j1 = j + 1;
-      getInputElement(alliance, "AutoScoring" + i1 + j1).prop("checked", result.score.Grid.AutoScoring[i][j]);
+      getInputElement(alliance, "AutoScoring" + i1 + j1).prop("checked", result.score.Grid.AutoScoring[3-i][j]);
     }
+  }
+
+  for(let i = 0; i < 2; i++) {
+    const i1 = i + 1;
+
+    getInputElement(alliance, "AutoLvL1Count" + i1).val(result.score.Grid.AutoLvL1Count[i]);
   }
 
   if (result.score.Fouls != null) {
@@ -105,13 +111,18 @@ const updateResults = function(alliance) {
 
   console.log("Starting Auto Scoring");
 
-  for (let i = 0; i < 4; i++) {
+  for (let i = 0; i < 3; i++) {
     const i1 = i + 1;
     for (let j = 0; j < 12; j++) {
       console.log("Auto Scoring [" + i + "] [" + j + "]");
       const j1 = j + 1;
-      result.score.Grid.AutoScoring[i][j] = formData[alliance + "AutoScoring" + i1 + j1] === "on";
+      result.score.Grid.AutoScoring[3-i][j] = formData[alliance + "AutoScoring" + i1 + j1] === "on";
     }
+  }
+
+  for(let i = 0; i < 2; i++) {
+    const i1 = i + 1;
+    result.score.Grid.AutoLvL1Count[i] = formData[alliance + "AutoLvL1Count" + i1];
   }
 
   console.log("Got past auto grid");
