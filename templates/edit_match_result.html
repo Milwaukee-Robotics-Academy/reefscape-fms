@@ -62,17 +62,6 @@
             <input type="text" class="ms-3" name="{{"{{alliance}}"}}AutoLvL1Count{{$i}}">
         {{end}}
 
-      <h6 class="fw-bold mb-2">Notes Scored</h6>
-      <div class="row">
-        <label class="col-lg-1 text-end">Amp:</label>
-        <div class="col-lg-1">
-          <input type="text" class="form-control input-sm" name="{{"{{alliance}}"}}AutoAmpNotes">
-        </div>
-        <label class="col-lg-1 text-end">Speaker:</label>
-        <div class="col-lg-1">
-          <input type="text" class="form-control input-sm" name="{{"{{alliance}}"}}AutoSpeakerNotes">
-        </div>
-      </div>
     </fieldset>
     <fieldset>
       <legend>Teleoperated</legend>
@@ -101,33 +90,10 @@
           <input type="text" class="form-control input-sm" name="{{"{{alliance}}"}}NetAlgae">
         </div>
       </div>
-
-      <h6 class="fw-bold mb-2">Coopertition</h6>
-      <div class="row mb-3">
-        <div class="col-lg-2">
-          <label class="control-label">Activated</label>
-          <input type="checkbox" class="ms-3" name="{{"{{alliance}}"}}CoopActivated">
-        </div>
-      </div>
-      <h6 class="fw-bold mb-2">Notes Scored</h6>
-      <div class="row">
-        <label class="col-lg-1 text-end">Amp:</label>
-        <div class="col-lg-1">
-          <input type="text" class="form-control input-sm" name="{{"{{alliance}}"}}TeleopAmpNotes">
-        </div>
-        <label class="col-lg-2 text-end">Speaker Unamplified:</label>
-        <div class="col-lg-1">
-          <input type="text" class="form-control input-sm" name="{{"{{alliance}}"}}TeleopUnamplifiedSpeakerNotes">
-        </div>
-        <label class="col-lg-2 text-end">Speaker Amplified:</label>
-        <div class="col-lg-1">
-          <input type="text" class="form-control input-sm" name="{{"{{alliance}}"}}TeleopAmplifiedSpeakerNotes">
-        </div>
-      </div>
     </fieldset>
     <fieldset>
       <legend>Endgame</legend>
-      <h6 class="fw-bold mb-2">Robots On Stage</h6>
+      <h6 class="fw-bold mb-2">Robots In Barge</h6>
       <div class="mb-3">
         {{range $i := seq 3}}
           <div class="row mb-2">
@@ -147,36 +113,6 @@
             </div>
           </div>
         {{end}}
-      </div>
-      <h6 class="fw-bold mb-2">High Notes on Microphones</h6>
-      <div class="row mb-3">
-        <div class="col-lg-2">
-          <label class="control-label">Stage Left</label>
-          <input type="checkbox" class="ms-3" name="{{"{{alliance}}"}}MicrophoneStatuses1">
-        </div>
-        <div class="col-lg-2">
-          <label class="control-label">Center Stage</label>
-          <input type="checkbox" class="ms-3" name="{{"{{alliance}}"}}MicrophoneStatuses2">
-        </div>
-        <div class="col-lg-2">
-          <label class="control-label">Stage Right</label>
-          <input type="checkbox" class="ms-3" name="{{"{{alliance}}"}}MicrophoneStatuses3">
-        </div>
-      </div>
-      <h6 class="fw-bold mb-2">Notes in Traps</h6>
-      <div class="row mb-3">
-        <div class="col-lg-2">
-          <label class="control-label">Stage Left</label>
-          <input type="checkbox" class="ms-3" name="{{"{{alliance}}"}}TrapStatuses1">
-        </div>
-        <div class="col-lg-2">
-          <label class="control-label">Center Stage</label>
-          <input type="checkbox" class="ms-3" name="{{"{{alliance}}"}}TrapStatuses2">
-        </div>
-        <div class="col-lg-2">
-          <label class="control-label">Stage Right</label>
-          <input type="checkbox" class="ms-3" name="{{"{{alliance}}"}}TrapStatuses3">
-        </div>
       </div>
     </fieldset>
     <fieldset>
