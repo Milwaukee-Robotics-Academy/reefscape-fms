@@ -48,7 +48,7 @@ const renderResults = function(alliance) {
     getInputElement(alliance, "TrapStatuses" + i1).prop("checked", result.score.TrapStatuses[i]);
   }
 
-  for (let i = 0; i < 3; i++) {
+  for (let i = 0; i < 4; i++) {
     const i1 = i + 1;
     for (let j = 0; j < 12; j++) {
       const j1 = j + 1;
@@ -77,6 +77,7 @@ const updateResults = function(alliance) {
   const formData = {};
   $.each($("form").serializeArray(), function(k, v) {
     formData[v.name] = v.value;
+    console.log("Name: " + v.name + " Value: " + v.value);
   });
 
   result.score.LeaveStatuses = [];
@@ -102,13 +103,18 @@ const updateResults = function(alliance) {
     result.score.TrapStatuses[i] = formData[alliance + "TrapStatuses" + i1] === "on";
   }
 
-  for (let i = 0; i < 3; i++) {
+  console.log("Starting Auto Scoring");
+
+  for (let i = 0; i < 4; i++) {
     const i1 = i + 1;
-    for (let j = 0; i < 12; j++) {
+    for (let j = 0; j < 12; j++) {
+      console.log("Auto Scoring [" + i + "] [" + j + "]");
       const j1 = j + 1;
       result.score.Grid.AutoScoring[i][j] = formData[alliance + "AutoScoring" + i1 + j1] === "on";
     }
   }
+
+  console.log("Got past auto grid");
 
   result.score.Fouls = [];
 
@@ -126,6 +132,8 @@ const updateResults = function(alliance) {
   $.each([result.team1, result.team2, result.team3], function(i, team) {
     result.cards[team] = formData[alliance + "Team" + team + "Card"];
   });
+
+  console.log("Finished update results");
 };
 
 // Appends a blank foul to the end of the list.
