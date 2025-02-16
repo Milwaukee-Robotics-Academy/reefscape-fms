@@ -37,6 +37,8 @@ const renderResults = function(alliance) {
   getInputElement(alliance, "TeleopAmpNotes").val(result.score.AmpSpeaker.TeleopAmpNotes);
   getInputElement(alliance, "TeleopUnamplifiedSpeakerNotes").val(result.score.AmpSpeaker.TeleopUnamplifiedSpeakerNotes);
   getInputElement(alliance, "TeleopAmplifiedSpeakerNotes").val(result.score.AmpSpeaker.TeleopAmplifiedSpeakerNotes);
+  getInputElement(alliance, "ProcessedAlgae").val(result.score.AmpSpeaker.ProcessedAlgae);
+  getInputElement(alliance, "NetAlgae").val(result.score.AmpSpeaker.NetAlgae);
 
   for (let i = 0; i < 3; i++) {
     const i1 = i + 1;
@@ -56,10 +58,24 @@ const renderResults = function(alliance) {
     }
   }
 
+  for (let i = 0; i < 3; i++) {
+    const i1 = i + 1;
+    for (let j = 0; j < 12; j++) {
+      const j1 = j + 1;
+      getInputElement(alliance, "Nodes" + i1 + j1).prop("checked", result.score.Grid.Nodes[3-i][j] == 1);
+    }
+  }
+
   for(let i = 0; i < 2; i++) {
     const i1 = i + 1;
 
     getInputElement(alliance, "AutoLvL1Count" + i1).val(result.score.Grid.AutoLvL1Count[i]);
+  }
+
+  for(let i = 0; i < 2; i++) {
+    const i1 = i + 1;
+
+    getInputElement(alliance, "TeliopLvL1Count" + i1).val(result.score.Grid.TeliopLvL1Count[i]);
   }
 
   if (result.score.Fouls != null) {
@@ -95,6 +111,8 @@ const updateResults = function(alliance) {
     TeleopAmpNotes: parseInt(formData[alliance + "TeleopAmpNotes"]),
     TeleopUnamplifiedSpeakerNotes: parseInt(formData[alliance + "TeleopUnamplifiedSpeakerNotes"]),
     TeleopAmplifiedSpeakerNotes: parseInt(formData[alliance + "TeleopAmplifiedSpeakerNotes"]),
+    ProcessedAlgae: parseInt(formData[alliance + "ProcessedAlgae"]),
+    NetAlgae: parseInt(formData[alliance + "NetAlgae"]),
   };
   result.score.EndgameStatuses = [];
   result.score.MicrophoneStatuses = [];
@@ -120,9 +138,28 @@ const updateResults = function(alliance) {
     }
   }
 
+  for (let i = 0; i < 3; i++) {
+    const i1 = i + 1;
+    for (let j = 0; j < 12; j++) {
+      const j1 = j + 1;
+      console.log("Cell [" + i + "][" + j + "]: " + formData[alliance + "Nodes" + i1 + j1]);
+      if(formData[alliance + "Nodes" + i1 + j1] === "on") {
+        result.score.Grid.Nodes[3-i][j] = 1;
+      } else {
+        result.score.Grid.Nodes[3-i][j] = 0;
+      }
+      
+    }
+  }
+
   for(let i = 0; i < 2; i++) {
     const i1 = i + 1;
-    result.score.Grid.AutoLvL1Count[i] = formData[alliance + "AutoLvL1Count" + i1];
+    result.score.Grid.AutoLvL1Count[i] = parseInt(formData[alliance + "AutoLvL1Count" + i1]);
+  }
+
+  for(let i = 0; i < 2; i++) {
+    const i1 = i + 1;
+    result.score.Grid.TeliopLvL1Count[i] = parseInt(formData[alliance + "TeliopLvL1Count" + i1]);
   }
 
   console.log("Got past auto grid");
