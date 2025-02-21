@@ -1,0 +1,177 @@
+{{/*
+  Copyright 2014 Team 254. All Rights Reserved.
+  Author: pat@patfairbank.com (Patrick Fairbank)
+
+  UI for entering realtime scores.
+*/}}
+{{define "title"}}Scoring Panel{{end}}
+{{define "body"}}
+<h1>This is the E-Stop Panel</h1>
+<div id="matchName">&nbsp;</div>
+<div class="row">
+
+  <div class="column right">
+    <div class="eStops">EStops
+      {{template "2stops" dict "btn1" "E1" "txt1" "EStop" "btn2" "A1" "txt2" "AStop"}}
+      {{template "2stops" dict "btn1" "E2" "txt1" "EStop" "btn2" "A2" "txt2" "AStop"}}
+      {{template "2stops" dict "btn1" "E3" "txt1" "EStop" "btn2" "A3" "txt2" "AStop"}}
+    </div>
+  </div>
+
+
+
+</div>
+
+{{end}}
+{{define "head"}}
+<link rel="manifest" href="/static/manifest/{{.Alliance}}_scoring.manifest">
+<meta name="viewport" content="width=device-width, user-scalable=no">
+<link href="/static/css/scoring_panel.css" rel="stylesheet">
+{{end}}
+{{define "script"}}
+<script src="/static/js/match_timing.js"></script>
+<script src="/static/js/estop_panel.js"></script>
+{{end}}
+{{define "stageSide"}}
+<div class="stage-side-col">
+  <div id="stageSide{{.index}}Team1" class="team-1 boolean" onclick="handleClick('onStage', 1, {{.index}});"></div>
+  <div id="stageSide{{.index}}Team2" class="team-2 boolean" onclick="handleClick('onStage', 2, {{.index}});"></div>
+  <div id="stageSide{{.index}}Team3" class="team-3 boolean" onclick="handleClick('onStage', 3, {{.index}});"></div>
+</div>
+<div class="stage-side-col">
+  <div id="stageSide{{.index}}Microphone" class="boolean" onclick="handleClick('microphone', 0, {{.index}});">Mic</div>
+  <div id="stageSide{{.index}}Trap" class="boolean" onclick="handleClick('trap', 0, {{.index}});">Trap</div>
+</div>
+{{end}}
+{{define "goaladd"}}
+<div class="goal">
+  <div class="number-button plus" onclick="handleClick('{{.plus}}');">
+    <div class="shortcut">{{.plus}}</div>
+    <div class="icon">
+      {{.txt1}}
+    </div>
+    <div class="shortcut" style="opacity: 0;">{{.plus}}</div>
+  </div>
+</div>
+{{end}}
+
+{{define "goalsub"}}
+<div class="goal">
+  <div class="number-button minus" onclick="handleClick('{{.minus}}');">
+    <div class="shortcut">{{.minus}}</div>
+    <div class="icon">
+      {{.txt1}}
+    </div>
+    <div class="shortcut" style="opacity: 0;">{{.minus}}</div>
+  </div>
+</div>
+{{end}}
+
+
+
+{{define "2goal"}}
+<div class="goal">
+  <div class="number-button btn1" onclick="handleClick('{{.btn1}}');">
+    <div class="shortcut">{{.btn1}}</div>
+    <div class="icon">
+      {{.txt1}}
+    </div>
+    <div class="shortcut" style="opacity: 0;">{{.btn1}}</div>
+  </div>
+  <div id={{.count}}></div>
+  <div class="number-button btn2" onclick="handleClick('{{.btn2}}');">
+    <div class="shortcut">{{.btn2}}</div>
+    <div class="icon">
+      {{.txt2}}
+    </div>
+    <div class="shortcut" style="opacity: 0;">{{.minus}}</div>
+  </div>
+</div>
+{{end}}
+{{define "4goal"}}
+<div class="goal4">
+  <div class="number-button btn1" onclick="handleClick('{{.btn1}}');">
+    <div class="shortcut">{{.btn1}}</div>
+    <div class="icon">
+      {{.txt1}}
+    </div>
+    <div class="shortcut" style="opacity: 0;">{{.btn1}}</div>
+  </div>
+  <div id={{.count}}></div>
+  <div class="number-button btn2" onclick="handleClick('{{.btn2}}');">
+    <div class="shortcut">{{.btn2}}</div>
+    <div class="icon">
+      {{.txt2}}
+    </div>
+    <div class="shortcut" style="opacity: 0;">{{.minus}}</div>
+  </div>
+
+<!-- </div>
+<div class="goal"> -->
+  <div class="number-button btn3" onclick="handleClick('{{.btn3}}');">
+    <div class="shortcut">{{.btn3}}</div>
+    <div class="icon">
+      {{.txt3}}
+    </div>
+    <div class="shortcut" style="opacity: 0;">{{.btn3}}</div>
+  </div>
+  <div id={{.count2}}></div>
+  <div class="number-button btn4" onclick="handleClick('{{.btn4}}');">
+    <div class="shortcut">{{.btn4}}</div>
+    <div class="icon">
+      {{.txt4}}
+    </div>
+    <div class="shortcut" style="opacity: 0;">{{.minus}}</div>
+  </div>
+</div>
+{{end}}
+
+{{define "2stops"}}
+<div class="teamEstopPanle">
+  <div class="number-button btnE octagon-button" onclick="handleClick('{{.btn1}}');">
+    <div class="shorcutCentered">{{.btn1}}
+      <div class="iconCentered">
+        {{.txt1}}
+      </div>
+    </div>
+    <div class="shortcut" style="opacity: 0;">{{.btn1}}</div>
+  </div>
+  <div>&nbsp;</div>
+  <div class="number-button btnA octagon-button" onclick="handleClick('{{.btn2}}');">
+    <div class="shorcutCentered">{{.btn2}}
+      <div class="iconCentered">
+        {{.txt2}}
+      </div>
+    </div>
+    <div class="shortcut" style="opacity: 0;">{{.minus}}</div>
+  </div>
+</div>
+{{end}}
+{{define "gridRow"}}
+<div class="grid-row">
+  {{range $i, $validStates := .validNodeStates}}
+    {{template "gridNode" dict "rowIndex" $.rowIndex "nodeIndex" $i "validStates" $validStates}}
+  {{end}}
+</div>
+{{end}}
+{{define "gridNode"}}
+<div class="grid-node" data-node="{{.nodeIndex}}">
+  <div id="gridAutoScoringRow{{$.rowIndex}}Node{{$.nodeIndex}}" class="grid-node-auto"
+    onclick="handleClick('gridAutoScoring', 0, 0,{{$.rowIndex}}, {{$.nodeIndex}})">
+    Auto
+  </div>
+  <div id="gridNodeStatesRow{{$.rowIndex}}Node{{$.nodeIndex}}" class="grid-node-states">
+    {{range $i, $state := .validStates}}
+      {{if ne $state "Empty"}}
+        {{template "gridNodeButton" dict "i" $i "state" $state "rowIndex" $.rowIndex "nodeIndex" $.nodeIndex}}
+      {{end}}
+    {{end}}
+  </div>
+</div>
+{{end}}
+{{define "gridNodeButton"}}
+<div class="grid-node-button" data-node-state="{{nodeStateToInt .i}}"
+  onclick="handleClick('gridNode', 0, 0, {{.rowIndex}}, {{.nodeIndex}}, {{nodeStateToInt .i}})">
+  <img src="/static/img/node_states/{{.state}}.svg" />
+</div>
+{{end}}

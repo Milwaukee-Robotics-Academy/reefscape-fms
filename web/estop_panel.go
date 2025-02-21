@@ -20,7 +20,7 @@ import (
 )
 
 // Renders the scoring interface which enables input of scores in real-time.
-func (web *Web) scoringPanelHandler(w http.ResponseWriter, r *http.Request) {
+func (web *Web) estopPanelHandler(w http.ResponseWriter, r *http.Request) {
 	if !web.userIsAdmin(w, r) {
 		return
 	}
@@ -31,7 +31,7 @@ func (web *Web) scoringPanelHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	template, err := web.parseFiles("templates/scoring_panel.html", "templates/base.html")
+	template, err := web.parseFiles("templates/estop_panel.html", "templates/base.html")
 	if err != nil {
 		handleWebErr(w, err)
 		return
@@ -50,7 +50,7 @@ func (web *Web) scoringPanelHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 // The websocket endpoint for the scoring interface client to send control commands and receive status updates.
-func (web *Web) scoringPanelWebsocketHandler(w http.ResponseWriter, r *http.Request) {
+func (web *Web) estopPanelWebsocketHandler(w http.ResponseWriter, r *http.Request) {
 	if !web.userIsAdmin(w, r) {
 		return
 	}
@@ -74,10 +74,11 @@ func (web *Web) scoringPanelWebsocketHandler(w http.ResponseWriter, r *http.Requ
 		return
 	}
 	defer ws.Close()
-	web.arena.ScoringPanelRegistry.RegisterPanel(alliance, ws)
+	// web.arena.ScoringPanelRegistry.RegisterPanel(alliance, ws)
+	log.Print("Hello")
 	web.arena.ScoringStatusNotifier.Notify()
 	defer web.arena.ScoringStatusNotifier.Notify()
-	defer web.arena.ScoringPanelRegistry.UnregisterPanel(alliance, ws)
+	// defer web.arena.ScoringPanelRegistry.UnregisterPanel(alliance, ws)
 
 	// Subscribe the websocket to the notifiers whose messages will be passed on to the client, in a separate goroutine.
 	go ws.HandleNotifiers(web.arena.MatchLoadNotifier, web.arena.MatchTimeNotifier, web.arena.RealtimeScoreNotifier,
